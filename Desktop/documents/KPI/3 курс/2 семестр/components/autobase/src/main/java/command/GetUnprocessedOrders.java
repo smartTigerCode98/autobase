@@ -1,18 +1,16 @@
 package command;
 
 import model.Order;
-import service.AutoBaseService;
+import service.OrderService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
+import java.util.List;
 
-public class GetUnprocessedOrders implements Command <ArrayList<Order>> {
+public class GetUnprocessedOrders implements Command <List<Order>> {
     @Override
-    public ArrayList<Order> execute(HttpServletRequest request, HttpServletResponse response, AutoBaseService service) {
-      return service.getUnprocessedOrders();
+    public List<Order> execute(HttpServletRequest request, HttpServletResponse response) {
+        OrderService orderService = OrderService.getOrderService();
+        return orderService.getUnprocessedOrders();
     }
 }
