@@ -1,8 +1,6 @@
 package controller;
 
 import command.*;
-import db_manager.DBManager;
-import service.AutoBaseService;
 import url_entry.URLEntry;
 import util.ResponseWriter;
 
@@ -17,28 +15,20 @@ import java.util.regex.Pattern;
 
 @WebServlet("/api/*")
 public class AutoBaseServlet extends HttpServlet {
-    private DBManager manager;
-    private AutoBaseService autoBaseService;
     private Map<URLEntry, Command> commands = new HashMap<>();
     private ResponseWriter responseWriter;
 
     @Override
     public void init(){
-        try {
-            this.manager = DBManager.getInstance();
-            this.autoBaseService = new AutoBaseService(this.manager.getConnection());
-            this.responseWriter = new ResponseWriter();
-            this.commands.put(new URLEntry("^/api/orders$", "GET"), new GetUnprocessedOrders());
-            this.commands.put(new URLEntry("^/api/drivers$", "GET"), new GetFreeDrivers());
-            this.commands.put(new URLEntry("^/api/drivers/(\\d+)$", "GET"), new GetDriver());
-            this.commands.put(new URLEntry("^/api/flight$", "POST"), new CreateFlight());
-            this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "GET"), new GetFlight());
-            this.commands.put(new URLEntry("^/api/verifyUser$", "POST"), new GetUser());
-            this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "PUT"), new UpdateStatusFlight());
-            this.commands.put(new URLEntry("^/api/car$", "PUT"), new UpdateStatusCar());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.responseWriter = new ResponseWriter();
+        this.commands.put(new URLEntry("^/api/orders$", "GET"), new GetUnprocessedOrders());
+        this.commands.put(new URLEntry("^/api/drivers$", "GET"), new GetFreeDrivers());
+        this.commands.put(new URLEntry("^/api/drivers/(\\d+)$", "GET"), new GetDriver());
+        this.commands.put(new URLEntry("^/api/flight$", "POST"), new CreateFlight());
+        this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "GET"), new GetFlight());
+        this.commands.put(new URLEntry("^/api/verifyUser$", "POST"), new GetUser());
+        this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "PUT"), new UpdateStatusFlight());
+        this.commands.put(new URLEntry("^/api/car$", "PUT"), new UpdateStatusCar());
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,7 +57,7 @@ public class AutoBaseServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException{
         Command command = this.getCommand(request.getRequestURI(), request.getMethod());
-        Object resultData = command.execute(request, response, this.autoBaseService);
+        Object resultData = command.execute(request, response);
         this.responseWriter.write(response, resultData);
     }
 
