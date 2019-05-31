@@ -1,5 +1,6 @@
 package dao;
 
+import db_manager.DBManager;
 import model.Order;
 
 import java.sql.Connection;
@@ -8,15 +9,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OrderImpDAO implements OrderDAO {
     private Connection connection;
-    public OrderImpDAO(Connection connection){
-        this.connection = connection;
+    public OrderImpDAO(){
+        try {
+            this.connection = DBManager.getInstance().getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
-    public ArrayList<Order> getUnprocessedOrders(){
-        ArrayList<Order> orders = new ArrayList<>();
+    public List<Order> getUnprocessedOrders(){
+        List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders WHERE processed = ?";
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(query);

@@ -1,5 +1,6 @@
 package dao;
 
+import db_manager.DBManager;
 import model.User;
 
 import java.sql.Connection;
@@ -11,7 +12,13 @@ public class UserImpDAO implements UserDAO {
 
     private Connection connection;
 
-    public UserImpDAO(Connection connection){this.connection = connection;}
+    public UserImpDAO(){
+        try {
+            this.connection = DBManager.getInstance().getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public User findUser(String email, String password) throws SQLException {
         User user = null;

@@ -2,9 +2,9 @@ package dao;
 
 import model.Car;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CarDAO {
-    public ArrayList<Car> findCarsByCriteria(String marka, String body_type, String number_of_seats);
-    public boolean updateConditionCar(int id, boolean is_broke);
+    List<Car> findCarsByOrder(String mark, String body_type, String number_of_seats);
+    boolean updateConditionCar(int id, boolean is_broke);
 }

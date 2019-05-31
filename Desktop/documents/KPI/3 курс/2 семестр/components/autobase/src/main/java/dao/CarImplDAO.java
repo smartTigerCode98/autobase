@@ -1,6 +1,7 @@
 package dao;
 
 
+import db_manager.DBManager;
 import model.Car;
 
 import java.sql.Connection;
@@ -8,33 +9,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CarImplDAO implements CarDAO {
     private Connection connection;
 
-    public CarImplDAO(Connection connection){
-        this.connection = connection;
+    public CarImplDAO(){
+        try {
+            this.connection = DBManager.getInstance().getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public ArrayList<Car> findCarsByCriteria(String marka, String body_type, String number_of_seats){
+    public List<Car> findCarsByOrder(String mark, String body_type, String number_of_seats){
 
-        ArrayList<Car> cars_set = new ArrayList<>();
+        List<Car> cars_set = new ArrayList<>();
         String query = "SELECT * FROM cars WHERE marka = ? AND type = ? AND number_of_seats = ? AND is_broke = false";
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setString(1, marka);
+            preparedStatement.setString(1, mark);
             preparedStatement.setString(2, body_type);
             preparedStatement.setString(3, number_of_seats);
             ResultSet cars = preparedStatement.executeQuery();
             while (cars.next()) {
                 int id = cars.getInt("id");
-                String marka_ = cars.getNString("marka");
+                String mark_ = cars.getNString("marka");
                 String type = cars.getNString("type");
                 String serial_number = cars.getNString("serial_number");
                 int number_of_seats_ = cars.getInt("number_of_seats");
                 boolean is_broke = cars.getBoolean("is_broke");
 
-                Car car = new Car(id, marka_, type, serial_number, number_of_seats_, is_broke);
+                Car car = new Car(id, mark_, type, serial_number, number_of_seats_, is_broke);
                 cars_set.add(car);
 
             }

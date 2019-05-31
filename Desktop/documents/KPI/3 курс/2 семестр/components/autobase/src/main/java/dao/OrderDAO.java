@@ -3,8 +3,9 @@ package dao;
 import model.Order;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface OrderDAO {
-    public ArrayList<Order> getUnprocessedOrders();
-    public boolean markAsProcessed(int id);
+    List<Order> getUnprocessedOrders();
+    boolean markAsProcessed(int id);
 }

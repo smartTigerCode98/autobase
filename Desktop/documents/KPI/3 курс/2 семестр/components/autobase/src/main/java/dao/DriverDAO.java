@@ -5,12 +5,11 @@ import model.Driver;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface DriverDAO {
-    public ArrayList<Driver> findAll() throws SQLException;
-    public Driver findByIdCar(int idCar);
-    public Driver findById(int idDriver);
-    public int getFreeCarDriver(ArrayList<Car> cars);
-    public ArrayList<Driver> getFreeDrivers(ArrayList<Car> cars);
-    public boolean updateStatusDriver(int id, boolean status);
+    Driver findByIdCar(int idCar);
+    Driver findById(int idDriver);
+    List<Driver> getFreeDrivers(List<Car> cars);
+    boolean updateStatusDriver(int id, boolean status);
 }

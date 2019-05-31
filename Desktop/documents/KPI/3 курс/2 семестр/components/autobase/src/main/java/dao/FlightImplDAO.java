@@ -1,5 +1,6 @@
 package dao;
 
+import db_manager.DBManager;
 import model.Flight;
 
 import java.sql.Connection;
@@ -11,8 +12,12 @@ public class FlightImplDAO implements FlightDAO {
 
     private Connection connection;
 
-    public FlightImplDAO(Connection connection){
-        this.connection = connection;
+    public FlightImplDAO(){
+        try {
+            this.connection = DBManager.getInstance().getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -54,7 +59,6 @@ public class FlightImplDAO implements FlightDAO {
 
     @Override
     public boolean setStatusForFlight(int id, boolean status){
-        boolean result = false;
         String query = "UPDATE flights SET status = ? WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
