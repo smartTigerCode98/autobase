@@ -24,11 +24,11 @@ public class AutoBaseServlet extends HttpServlet {
         this.commands.put(new URLEntry("^/api/orders$", "GET"), new GetUnprocessedOrders());
         this.commands.put(new URLEntry("^/api/drivers$", "GET"), new GetFreeDrivers());
         this.commands.put(new URLEntry("^/api/drivers/(\\d+)$", "GET"), new GetDriver());
-        this.commands.put(new URLEntry("^/api/flight$", "POST"), new CreateFlight());
-        this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "GET"), new GetFlight());
-        this.commands.put(new URLEntry("^/api/verifyUser$", "POST"), new GetUser());
-        this.commands.put(new URLEntry("^/api/flight/(\\d+)$", "PUT"), new UpdateStatusFlight());
-        this.commands.put(new URLEntry("^/api/car$", "PUT"), new UpdateStatusCar());
+        this.commands.put(new URLEntry("^/api/flights$", "POST"), new CreateFlight());
+        this.commands.put(new URLEntry("^/api/flights/drivers/(\\d+)$", "GET"), new GetFlight());
+        this.commands.put(new URLEntry("^/api/users$", "POST"), new GetUser());
+        this.commands.put(new URLEntry("^/api/flights/(\\d+)$", "PUT"), new UpdateStatusFlight());
+        this.commands.put(new URLEntry("^/api/cars/(\\d+)$", "PUT"), new UpdateStatusCar());
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
